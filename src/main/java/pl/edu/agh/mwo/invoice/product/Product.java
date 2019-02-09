@@ -10,15 +10,15 @@ public abstract class Product {
 	private final BigDecimal taxPercent;
 
 	protected Product(String name, BigDecimal price, BigDecimal tax) {
-		if (name == null || name == "") {
-			throw new IllegalArgumentException("Name cannot be null");
+		if (name == null || name.equals("")) { //wazna kolejnosc przy || bo tak nie poleci nullpointerException, gdybysmy wywolali equals na null 
+			throw new IllegalArgumentException("Name cannot be null/empty");
 		}
 		
 		if (price == null) {
 			throw new IllegalArgumentException("Price cannot be null");
 		}
 		
-		if (price.compareTo(BigDecimal.ZERO) == -1) {
+		if (price.compareTo(BigDecimal.ZERO) == -1) { //compare porownuje (zwaraca -1 jesli price bedzie mniejsze od BD.Z, 0 jesli rowne oba, 1 jesli price bedzie wieksze od BD.Z); BigDecimal.Zero - stała w klasie oznaczajaca ZERO
 			throw new IllegalArgumentException("Price cannot be minus");
 		}
 				
