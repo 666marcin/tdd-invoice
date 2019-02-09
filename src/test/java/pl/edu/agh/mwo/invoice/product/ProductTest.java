@@ -40,7 +40,7 @@ public class ProductTest {
 		new OtherProduct(null, new BigDecimal("100.0"));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class) //wyrzuci wyjatek gdy chcemy stworzyć product bez nazwy
 	public void testProductWithEmptyName() {
 		new TaxFreeProduct("", new BigDecimal("100.0"));
 	}
