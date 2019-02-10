@@ -51,4 +51,9 @@ public class Invoice {
 	public Integer getNumber() {
 		return number;	
 	}
+
+	public String getAsText() {
+		String print = "nr: " + number;
+		return print ;
+	}
 }

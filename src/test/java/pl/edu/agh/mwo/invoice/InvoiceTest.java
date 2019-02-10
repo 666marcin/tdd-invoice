@@ -125,7 +125,7 @@ public class InvoiceTest {
 	}
 
 	@Test
-	public void testTheSameHaveTheSameNumber() {
+	public void testTheSameInvoiceHaveTheSameNumber() {
 		Integer number1 = invoice.getNumber();
 		Integer number2 = invoice.getNumber();
 		Assert.assertEquals(number1, number2);
@@ -138,5 +138,12 @@ public class InvoiceTest {
 			Integer number2 = new Invoice().getNumber();
 			Assert.assertThat(number1, Matchers.lessThan(number2));
 		}
+	}
+	
+	@Test
+	public void testPrintedInvoiceContainsNumber() {
+		String printedInvoice = invoice.getAsText();
+		String number = invoice.getNumber().toString();
+		Assert.assertThat(printedInvoice, Matchers.containsString("nr: " + number));
 	}
 }
