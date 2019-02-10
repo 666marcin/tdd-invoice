@@ -146,4 +146,29 @@ public class InvoiceTest {
 		String number = invoice.getNumber().toString();
 		Assert.assertThat(printedInvoice, Matchers.containsString("nr: " + number));
 	}
+	
+	@Test
+	public void testPrintedInvoiceContainsProduct() {
+		String printedInvoice = invoice.getAsText();
+		String procuct = invoice.getNumber().toString();
+		
+		//Assert.assertThat(printedInvoice, Matchers.containsString("nr: " + number));
+
+	}
+	
+	@Test
+	public void testPrintedInvoiceContainsProductAmount() {
+		invoice.addProduct(new TaxFreeProduct("chleb", new BigDecimal("2")),2);
+    	invoice.addProduct(new OtherProduct("kaczka", new BigDecimal("20")));
+    	invoice.addProduct(new DairyProduct("maslo", new BigDecimal("5")),5);
+		Assert.assertThat(invoice.getAsText(), Matchers.containsString("Liczba pozycji: 3"));
+	}
+	
+	@Test
+	public void testPrintedInvoiceNotContainsDuplicate() {
+		invoice.addProduct(new TaxFreeProduct("chleb", new BigDecimal("2")));
+    	invoice.addProduct(new TaxFreeProduct("chleb", new BigDecimal("2")));
+
+		Assert.assertThat(invoice.getAsText(), Matchers.containsString("chleb 2 2"));
+	}
 }

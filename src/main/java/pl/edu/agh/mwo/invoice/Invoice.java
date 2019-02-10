@@ -1,16 +1,16 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-	private Map<Product, Integer> products = new HashMap<Product, Integer>();
+	private Map<Product, Integer> products = new LinkedHashMap<Product, Integer>();
 	private int number;
 	private static Integer nextNumber = 1;
-	
+
 	public Invoice() {
 		this.number = nextNumber++;
 	}
@@ -23,7 +23,13 @@ public class Invoice {
 		if (product == null || quantity <= 0) {
 			throw new IllegalArgumentException();
 		}
-		products.put(product, quantity);
+
+		if (this.products.containsKey(product)) {
+			Integer currentQuantity = this.products.get(product);
+			this.products.put(product, currentQuantity + quantity);
+		} else {
+			products.put(product, quantity);
+		}
 	}
 
 	public BigDecimal getNetTotal() {
@@ -49,11 +55,18 @@ public class Invoice {
 	}
 
 	public Integer getNumber() {
-		return number;	
+		return number;
 	}
 
 	public String getAsText() {
-		String print = "nr: " + number;
-		return print ;
+		String print = "nr: " + this.number;
+		for (Product product : products.keySet()) {
+			BigDecimal quantity = new BigDecimal(products.get(product));
+			print += "\n" + product.getName() + " " + quantity + " " + product.getPrice();
+		}
+		print += "\nLiczba pozycji: " + this.products.size();
+
+		return print;
 	}
+
 }
